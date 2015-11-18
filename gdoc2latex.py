@@ -133,6 +133,7 @@ class _HTMLToText(HTMLParser):
         HTMLParser.__init__(self)
         self._buf = []
         self.hide_output_nesting_level = 0
+        self.chapter_title_depth = 0
 
     def handle_starttag(self, tag, attrs):
         attrsDict = self.to_dict(attrs)
@@ -146,13 +147,38 @@ class _HTMLToText(HTMLParser):
         if tag in ('p', 'br') and not self.at_start_of_line():
             self.append('\n')
 
+        # Handle headings
+        if tag == 'p':
+            if self.chapter_title_depth > 0:
+                self.chapter_title_depth += 1
+            if "class" in attrsDict and "title" in attrsDict["class"].split():
+                self.append('\n\chapter{')
+                self.chapter_title_depth = 1
+        if tag == 'h1':
+            self.append('\n\section{')
+        elif tag == 'h2':
+            self.append('\n\subsection{')
+        elif tag == 'h3':
+            self.append('\n\subsubsection{')
+        elif tag == 'h4':
+            self.append('\n\paragraph{')
+
     def handle_startendtag(self, tag, attrs):
         if tag == 'br':
             self.append('\n')
 
     def handle_endtag(self, tag):
         if tag == 'p':
+            if self.chapter_title_depth == 1:
+                self.append('}\n')
+            if self.chapter_title_depth > 0:
+                self.chapter_title_depth -= 1
             self.append('\n')
+
+        # Handle headings
+        if tag in ['h1','h2','h3','h4']:
+            self.append('}\n')
+
         if self.hide_output_nesting_level > 0:
             self.hide_output_nesting_level -= 1
 

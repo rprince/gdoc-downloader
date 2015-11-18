@@ -5,6 +5,8 @@ from HTMLParser import HTMLParser, HTMLParseError
 from htmlentitydefs import name2codepoint
 import re, json, sys, urllib, urllib2
 import getpass
+from pydrive.drive import GoogleDrive
+from pydrive.auth import GoogleAuth
 
 def main():
     if len(sys.argv) < 2:
@@ -31,6 +33,8 @@ def download_to_file(gdoc_url, out_filename, email='', passwd=''):
     '''Downloads gdoc_url to your hard disk as out_filename'''
     print 'Downloading', gdoc_url
     html = fetchGoogleDoc(gdoc_url, email, passwd)
+    with open(out_filename+".html", 'w') as f:
+        f.write(html)
     text = html_to_text(html)
     latex = unicode_to_latex(text)
     with open(out_filename, 'w') as f:
@@ -76,31 +80,24 @@ def fetchGoogleDoc(urlOrGdocFile,email='',password=''):
     exportUrl = "https://docs.google.com/document/d/" + docId + "/export?format=html"
 
     # open a connection to it
-    if email != "":
-        headers = {
-            "Authorization": "GoogleLogin auth=" + get_auth_token(email,password,\
-                    "gdoc2latex.py"),
-            "GData-Version": "3.0"
-        }
-        req = urllib2.Request(exportUrl, \
-                headers=headers)
-        conn = urllib2.urlopen(req)
-    else:
-        conn = urllib2.urlopen(exportUrl)
-        if "ServiceLogin" in conn.geturl(): # we were redirected to a login -- doc isn't publicly viewable
-            raise Exception("""
-    The google doc 
-      {url}
-    is not publicly readable. To download it,
-    give your email and password as arguments
-    when running this program.
-    """.format(url = urlOrGdocFile))
+    global gauth
 
-    # download the html
-    raw = conn.read()
-    encoding = conn.headers['content-type'].split('charset=')[-1]
-    html = unicode(raw, encoding)
-    conn.close()
+    try:
+        if gauth == None:
+            gauth = GoogleAuth()
+            gauth.LocalWebserverAuth()
+        else:
+            print "ALREADY HAVE AN AUTH"
+    except NameError:
+        gauth = GoogleAuth()
+        gauth.LocalWebserverAuth()
+    drive = GoogleDrive(gauth)
+    file = drive.CreateFile({'id': docId})
+    print 'downloading "%s"' % file['title']
+    # file.GetContentString('simulation.html', mimetype='text/html')
+    file.FetchContent(mimetype='text/html')
+    html = file.content.getvalue().decode('utf-8')
+    
     return html
 
 def html_to_text(html):

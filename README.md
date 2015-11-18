@@ -29,16 +29,16 @@ to `stdout`. Note that the script ignores navigational markers and content befor
 
 Run:
 
-    python parallel_download_gdocs.py
+    python serial_download_gdocs.py
     
-to download a set of Google Docs to your computer in parallel, which is faster than running
-`gdoc2latex.py` separately for each file. Customize the `files` list in `parallel_download_gdocs.py` to
+to download a set of Google Docs to your computer in serial, which is more convenient than running
+`gdoc2latex.py` separately for each file. Customize the `files` list in `serial_download_gdocs.py` to
 specify which files to download. Here is an example configuration:
 
     files = [
-        ('https://docs.google.com/document/d/1XhnvsR9uje1m0mu-RvJ9_ZtsqnsqO1NgtHm9c2MKi0A/edit', 'paper.tex'),
-        ('https://docs.google.com/document/d/11ptby0jKoXqV06jbLf2-MAcqrvwynNjKFJBoaAQI5gg/edit', 'intro.tex'),
-        ('https://docs.google.com/document/d/1Nt8d_-mwu2z1S1-zgakHxFxb246ZJu2DkN6BwwC0roY/edit', 'conclusion.tex'),
+        ('paper.tex', 'https://docs.google.com/document/d/1XhnvsR9uje1m0mu-RvJ9_ZtsqnsqO1NgtHm9c2MKi0A/edit'),
+        ('intro.tex', 'https://docs.google.com/document/d/11ptby0jKoXqV06jbLf2-MAcqrvwynNjKFJBoaAQI5gg/edit'),
+        ('conclusion.tex', 'https://docs.google.com/document/d/1Nt8d_-mwu2z1S1-zgakHxFxb246ZJu2DkN6BwwC0roY/edit'),
     ]
 
 Running this script will download the first file and save it as `paper.tex`, the second as `intro.tex`, and the

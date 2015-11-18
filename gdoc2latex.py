@@ -163,6 +163,14 @@ class _HTMLToText(HTMLParser):
         elif tag == 'h4':
             self.append('\n\paragraph{')
 
+        # Handle lists
+        if tag == 'ul':
+            self.append('\\begin{itemize}\n')
+        elif tag == 'ol':
+            self.append('\\begin{enumerate}\n')
+        elif tag == 'li':
+            self.append('\item ')
+
     def handle_startendtag(self, tag, attrs):
         if tag == 'br':
             self.append('\n')
@@ -178,6 +186,14 @@ class _HTMLToText(HTMLParser):
         # Handle headings
         if tag in ['h1','h2','h3','h4']:
             self.append('}\n')
+
+        # Handle lists
+        if tag == 'ul':
+            self.append('\\end{itemize}\n')
+        elif tag == 'ol':
+            self.append('\\end{enumerate}\n')
+        elif tag == 'li':
+            self.append('\n')
 
         if self.hide_output_nesting_level > 0:
             self.hide_output_nesting_level -= 1

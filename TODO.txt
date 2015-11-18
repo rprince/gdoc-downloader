@@ -1,0 +1,9 @@
+TODO.txt
+
+[ ] Add \label to end of \chapter
+[ ] Convert HTML table to LaTeX
+[ ] Merge adjacent lists
+[ ] Replace HTMLParser with Beautiful Soup
+
+
+[x] Convert <ul> and <ol> to LaTeX

@@ -115,6 +115,8 @@ def html_to_text(html):
     html = re.sub(r'<a href="#cmnt_ref.{1,30}\[a\].*', '', html, 1) # for section hyperlinks
     html = re.sub(r'END_DOCUMENT.*', '', html, 1)
 
+    # pre-format HTML tables for LaTeX
+
     parser = _HTMLToText()
     try:
         parser.feed(html)
@@ -171,6 +173,10 @@ class _HTMLToText(HTMLParser):
         elif tag == 'li':
             self.append('\item ')
 
+        # Handle tables
+        if tag == 'table':
+            self.append('\\begin{tabular}{ |p{2cm}| p{2cm}| p{2cm}| p{2cm}| p{2cm}| p{2cm}| p{2cm}| p{2cm}| p{2cm}| p{2cm}| }\n')
+
     def handle_startendtag(self, tag, attrs):
         if tag == 'br':
             self.append('\n')
@@ -194,6 +200,14 @@ class _HTMLToText(HTMLParser):
             self.append('\\end{enumerate}\n')
         elif tag == 'li':
             self.append('\n')
+
+        # Handle tables
+        if tag == 'table':
+            self.append('\\end{tabular}\n')
+        elif tag == 'td':
+            self.append(' & ')
+        elif tag == 'tr':
+            self.append('\\\\\n')
 
         if self.hide_output_nesting_level > 0:
             self.hide_output_nesting_level -= 1

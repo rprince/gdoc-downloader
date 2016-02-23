@@ -7,10 +7,10 @@ directory = "compile/chapters/" # compile/ contains LaTeX master doc and .bib
 files = [
   ('introduction.tex', 'https://docs.google.com/document/d/1SHho1qONCZ5mvs45FjFo7P__66hZx1D7lnHAUZH-Hyc/edit'),
   ('literature_review.tex', 'https://docs.google.com/document/d/1GP8-kllP8mYJvT7dfmauEVoRHj2AlK7080Sy849l-wY/edit'),
+ # ('mini-thesis_experiment.tex', 'https://docs.google.com/document/d/1IBWOJc5ywim6Qr6h4NhTWi4ikth1WvxQ-bVl1KExBnk/edit'),
   ('idiums_design.tex', 'https://docs.google.com/document/d/1mF5jaBqpomkBciA5bFzIa-ypgF9qR72uvP7zigzlQJ4/edit'),
   ('simulation.tex', 'https://docs.google.com/document/d/1qEXAWmX-4Bhl4y_JMspO47jMGRIdaqH4-UDEEdFEIc8/edit'),
  # ('thesis_experiment.tex', 'https://docs.google.com/document/d/1Cpqm9inI0Mh1zGLjUyWO4PtWSoYscqACcd7uE3Gj7V4/edit'),
-  ('mini-thesis_experiment.tex', 'https://docs.google.com/document/d/1IBWOJc5ywim6Qr6h4NhTWi4ikth1WvxQ-bVl1KExBnk/edit'),
  # ('executive_summary.tex', 'https://docs.google.com/document/d/1OEN_KLOTyltztNmaTsMdd3W9hI8SG8tSMSCc5gBOgC8/edit'),
   ('experiment.tex', 'https://docs.google.com/document/d/1k3v2X4saS-hMBqMk4o9s9xxSLeMCRW07FBSXRhw0_64/edit'),
   ('meta-review.tex', 'https://docs.google.com/document/d/1v-EhKU74HwH0sW4qkZAvv1Uvxcjc_B0luA51iy32VOU/edit'),
